@@ -1,15 +1,255 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Конфигуратор для AI Predictor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Share Tech Mono", monospace;
+        text-shadow: 0 0 3px rgba(0, 255, 255, 0.4);
+        background-color: #0d1117;
+      }
+      .config-input {
+        background-color: #1a202c;
+        border-color: #38bdf8;
+        transition: all 0.3s ease;
+      }
+      .config-input:focus {
+        outline: none;
+        box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+        border-color: #7dd3fc;
+      }
+      .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out;
+      }
+      .accordion-header i {
+        transition: transform 0.3s ease-in-out;
+      }
+      .accordion-item.open .accordion-content {
+        max-height: 1000px; /* Large enough to fit content */
+      }
+      .accordion-item.open .accordion-header i {
+        transform: rotate(180deg);
+      }
+      /* Custom Toggle Switch Styles */
+      .toggle-checkbox {
+        @apply: absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer;
+        right: 1rem;
+        transition: right 0.2s ease-in-out;
+      }
+      .toggle-checkbox:checked {
+        right: 0.1rem;
+        border-color: #0ea5e9; /* cyan-600 */
+      }
+      .toggle-label {
+        @apply: block overflow-hidden h-6 rounded-full bg-gray-600 cursor-pointer;
+        transition: background-color 0.2s ease-in-out;
+      }
+      .toggle-checkbox:checked + .toggle-label {
+        background-color: #0ea5e9; /* cyan-600 */
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-cyan-300">
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+      <header class="text-center mb-10">
+        <h1
+          class="text-3xl md:text-5xl tracking-widest text-cyan-300"
+          style="text-shadow: 0 0 8px #0ea5e9"
+        >
+          <i class="fas fa-cogs mr-4"></i>AI Predictor Configurator
+        </h1>
+        <p class="text-gray-400 mt-2">
+          // Настройте и скачайте ваш HTML файл //
+        </p>
+      </header>
 
-      
-      
-        
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <div class="space-y-8">
+        <!-- General Settings -->
+        <div
+          class="bg-[#0d0d0d] border border-cyan-700 rounded-lg p-6 shadow-lg shadow-cyan-500/10"
+        >
+          <h2
+            class="text-2xl font-bold mb-6 tracking-wider border-b border-cyan-800 pb-2"
+          >
+            // Общие настройки
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="currency" class="block text-sm font-medium mb-1"
+                >Валюта</label
+              >
+              <input
+                type="text"
+                id="currency"
+                value="NGN"
+                class="config-input w-full p-2 border rounded-md text-white"
+              />
+            </div>
+            <div>
+              <label
+                for="winnerMultiplier"
+                class="block text-sm font-medium mb-1"
+                >Множитель выигрыша в ленте</label
+              >
+              <input
+                type="number"
+                id="winnerMultiplier"
+                value="100"
+                class="config-input w-full p-2 border rounded-md text-white"
+              />
+            </div>
+            <div>
+              <label for="minBet" class="block text-sm font-medium mb-1"
+                >Минимальная ставка</label
+              >
+              <input
+                type="number"
+                id="minBet"
+                value="500"
+                class="config-input w-full p-2 border rounded-md text-white"
+              />
+            </div>
+            <div>
+              <label for="maxBet" class="block text-sm font-medium mb-1"
+                >Максимальная ставка</label
+              >
+              <input
+                type="number"
+                id="maxBet"
+                value="1500"
+                class="config-input w-full p-2 border rounded-md text-white"
+              />
+            </div>
+
+            <!-- Feature Toggles -->
+            <div
+              class="col-span-1 md:col-span-2 border-t border-cyan-800 pt-6 mt-2 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4"
+            >
+              <div class="flex items-center justify-between">
+                <label for="enableBetStep" class="block text-sm font-medium"
+                  >Включить шаг "Get Bet Amount"</label
+                >
+                <div
+                  class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in"
+                >
+                  <input
+                    type="checkbox"
+                    name="enableBetStep"
+                    id="enableBetStep"
+                    checked
+                    class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                  />
+                  <label
+                    for="enableBetStep"
+                    class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-600 cursor-pointer"
+                  ></label>
+                </div>
+              </div>
+              <div class="flex items-center justify-between">
+                <label for="enableLottery" class="block text-sm font-medium"
+                  >Включить "Lottery"</label
+                >
+                <div
+                  class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in"
+                >
+                  <input
+                    type="checkbox"
+                    name="enableLottery"
+                    id="enableLottery"
+                    checked
+                    class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                  />
+                  <label
+                    for="enableLottery"
+                    class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-600 cursor-pointer"
+                  ></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wheel of Fortune Settings -->
+        <div
+          class="bg-[#0d0d0d] border border-cyan-700 rounded-lg p-6 shadow-lg shadow-cyan-500/10"
+        >
+          <h2
+            class="text-2xl font-bold mb-6 tracking-wider border-b border-cyan-800 pb-2"
+          >
+            // Настройка Колеса Фортуны
+          </h2>
+          <div id="wheel-prizes-container" class="space-y-4">
+            <!-- Prize slots will be generated here -->
+          </div>
+          <button
+            id="add-prize-btn"
+            class="mt-6 bg-grey-700 text-white font-bold px-4 py-2 text-sm rounded-md hover:bg-cyan-600 transition-colors"
+          ></button>
+        </div>
+
+        <!-- Video Settings -->
+        <div
+          class="bg-[#0d0d0d] border border-cyan-700 rounded-lg p-6 shadow-lg shadow-cyan-500/10"
+        >
+          <h2
+            class="text-2xl font-bold mb-6 tracking-wider border-b border-cyan-800 pb-2"
+          >
+            // Настройки видео
+          </h2>
+          <div id="accordion-container" class="space-y-2">
+            <!-- Accordion items will be injected by JS -->
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-12 text-center">
+        <button
+          id="generateBtn"
+          class="bg-cyan-600 text-black font-bold px-10 py-4 text-lg rounded-md hover:bg-cyan-500 transition-all duration-300 active:scale-95 shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50"
+        >
+          <i class="fas fa-download mr-3"></i>Сгенерировать и скачать HTML
+        </button>
+      </div>
+    </div>
+
+    <a id="downloadLink" class="hidden"></a>
+
+    <template id="original-html">
+      <!DOCTYPE html>
+      <html lang="fr" dir="ltr">
+        <head>
+          <meta charset="UTF-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
           <title>Prédicteur d'IA</title>
           <script src="https://cdn.tailwindcss.com"></script>
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-          <link rel="preconnect" href="https://fonts.googleapis.com">
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-          <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&amp;display=swap" rel="stylesheet">
+          <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap"
+            rel="stylesheet"
+          />
           <style>
             body {
               font-family: "Share Tech Mono", monospace;
@@ -258,24 +498,40 @@
               }
             }
           </style>
-        
-        
-          <div id="main-content" class="min-h-screen flex flex-col items-center justify-center p-4">
+        </head>
+        <body class="bg-black text-green-400">
+          <div
+            id="main-content"
+            class="min-h-screen flex flex-col items-center justify-center p-4"
+          >
             <header class="text-center mb-12">
               <h1 class="text-3xl md:text-5xl tracking-widest cursor-default">
-                <span id="typing-text">Prédicteur d'IA</span><span class="cursor"></span>
+                <span id="typing-text">Prédicteur d'IA</span
+                ><span class="cursor"></span>
               </h1>
             </header>
-            <button id="openModalBtn" class="bg-transparent border-2 border-green-400 text-green-400 px-8 py-3 text-lg hover:bg-green-400 hover:text-black transition-all duration-300 active:scale-95 shadow-lg shadow-green-500/20 hover:shadow-green-500/40">
+            <button
+              id="openModalBtn"
+              class="bg-transparent border-2 border-green-400 text-green-400 px-8 py-3 text-lg hover:bg-green-400 hover:text-black transition-all duration-300 active:scale-95 shadow-lg shadow-green-500/20 hover:shadow-green-500/40"
+            >
               OBTENIR LES SIGNAUX D'IA
             </button>
           </div>
-          <div id="app-container" class="hidden min-h-screen container mx-auto p-4 md:p-8">
+          <div
+            id="app-container"
+            class="hidden min-h-screen container mx-auto p-4 md:p-8"
+          >
             <div class="w-full flex justify-end items-center mb-4">
-              <button id="lotteryBtn" class="shimmer-btn rounded-md px-4 py-2 text-sm mr-4">
+              <button
+                id="lotteryBtn"
+                class="shimmer-btn rounded-md px-4 py-2 text-sm mr-4"
+              >
                 <i class="fas fa-star mr-2"></i>LOTERIE
               </button>
-              <button id="logoutBtn" class="bg-red-600 text-white px-4 py-2 text-sm rounded-md hover:bg-red-500 transition-colors active:scale-95">
+              <button
+                id="logoutBtn"
+                class="bg-red-600 text-white px-4 py-2 text-sm rounded-md hover:bg-red-500 transition-colors active:scale-95"
+              >
                 <i class="fas fa-sign-out-alt mr-2"></i>Déconnexion
               </button>
             </div>
@@ -283,115 +539,217 @@
               <h3 class="text-center text-xl mb-4 tracking-widest">
                 // MES ÉTUDIANTS //
               </h3>
-              <div id="live-feed-container" class="h-24 bg-black/30 border border-green-800 rounded-md p-2 flex items-center space-x-4 overflow-x-hidden"></div>
+              <div
+                id="live-feed-container"
+                class="h-24 bg-black/30 border border-green-800 rounded-md p-2 flex items-center space-x-4 overflow-x-hidden"
+              ></div>
             </div>
             <div id="signals-section" class="">
-              <h2 class="text-3xl md:text-4xl text-center mb-10 tracking-widest">
+              <h2
+                class="text-3xl md:text-4xl text-center mb-10 tracking-widest"
+              >
                 // SIGNAUX D'IA DISPONIBLES //
               </h2>
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-                <div class="signal-card bg-[#0d0d0d] border border-green-700 rounded-lg overflow-hidden flex flex-col" data-game="aviator">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqBdX8SuaC1Ws7ZYuCVQstQ4qRi9A_3SWujg&amp;s" alt="Prédicteur d'IA Aviator" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/39ff14?text=Aviator';">
+              <div
+                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6"
+              >
+                <div
+                  class="signal-card bg-[#0d0d0d] border border-green-700 rounded-lg overflow-hidden flex flex-col"
+                  data-game="aviator"
+                >
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqBdX8SuaC1Ws7ZYuCVQstQ4qRi9A_3SWujg&s"
+                    alt="Prédicteur d'IA Aviator"
+                    class="w-full h-48 object-cover"
+                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/39ff14?text=Aviator';"
+                  />
                   <div class="p-4 flex flex-col flex-grow text-center">
                     <h3 class="text-lg font-bold mb-2 flex-grow">
                       Prédicteur d'IA Aviator
                     </h3>
-                    <p id="stats-aviator" class="text-sm text-gray-400 mb-3 font-mono leading-tight">
+                    <p
+                      id="stats-aviator"
+                      class="text-sm text-gray-400 mb-3 font-mono leading-tight"
+                    >
                       // Chargement des données...
                     </p>
-                    <button class="activate-btn w-full mt-auto bg-green-600 text-black px-4 py-2 hover:bg-green-500 transition-all duration-300 active:scale-95">
+                    <button
+                      class="activate-btn w-full mt-auto bg-green-600 text-black px-4 py-2 hover:bg-green-500 transition-all duration-300 active:scale-95"
+                    >
                       ACTIVER
                     </button>
                   </div>
                 </div>
-                <div class="signal-card bg-[#0d0d0d] border border-green-700 rounded-lg overflow-hidden flex flex-col" data-game="mines">
-                  <img src="https://rotativka.com/en/wp-content/uploads/sites/3/2021/06/Mines-Demo.jpg" alt="Prédicteur d'IA Mines" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/39ff14?text=Mines';">
+                <div
+                  class="signal-card bg-[#0d0d0d] border border-green-700 rounded-lg overflow-hidden flex flex-col"
+                  data-game="mines"
+                >
+                  <img
+                    src="https://rotativka.com/en/wp-content/uploads/sites/3/2021/06/Mines-Demo.jpg"
+                    alt="Prédicteur d'IA Mines"
+                    class="w-full h-48 object-cover"
+                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/39ff14?text=Mines';"
+                  />
                   <div class="p-4 flex flex-col flex-grow text-center">
                     <h3 class="text-lg font-bold mb-2 flex-grow">
                       Prédicteur d'IA Mines
                     </h3>
-                    <p id="stats-mines" class="text-sm text-gray-400 mb-3 font-mono leading-tight">
+                    <p
+                      id="stats-mines"
+                      class="text-sm text-gray-400 mb-3 font-mono leading-tight"
+                    >
                       // Chargement des données...
                     </p>
-                    <button class="activate-btn w-full mt-auto bg-green-600 text-black px-4 py-2 hover:bg-green-500 transition-all duration-300 active:scale-95">
+                    <button
+                      class="activate-btn w-full mt-auto bg-green-600 text-black px-4 py-2 hover:bg-green-500 transition-all duration-300 active:scale-95"
+                    >
                       ACTIVER
                     </button>
                   </div>
                 </div>
-                <div class="signal-card bg-[#0d0d0d] border border-green-700 rounded-lg overflow-hidden flex flex-col" data-game="penalty">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThYP5CGxc52hWd4ToMHI8MIJhun5BEjHh5LQ&amp;s" alt="Prédicteur d'IA Penalty" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/39ff14?text=Penalty';">
+                <div
+                  class="signal-card bg-[#0d0d0d] border border-green-700 rounded-lg overflow-hidden flex flex-col"
+                  data-game="penalty"
+                >
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThYP5CGxc52hWd4ToMHI8MIJhun5BEjHh5LQ&s"
+                    alt="Prédicteur d'IA Penalty"
+                    class="w-full h-48 object-cover"
+                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/39ff14?text=Penalty';"
+                  />
                   <div class="p-4 flex flex-col flex-grow text-center">
                     <h3 class="text-lg font-bold mb-2 flex-grow">
                       Prédicteur d'IA Penalty
                     </h3>
-                    <p id="stats-penalty" class="text-sm text-gray-400 mb-3 font-mono leading-tight">
+                    <p
+                      id="stats-penalty"
+                      class="text-sm text-gray-400 mb-3 font-mono leading-tight"
+                    >
                       // Chargement des données...
                     </p>
-                    <button class="activate-btn w-full mt-auto bg-green-600 text-black px-4 py-2 hover:bg-green-500 transition-all duration-300 active:scale-95">
+                    <button
+                      class="activate-btn w-full mt-auto bg-green-600 text-black px-4 py-2 hover:bg-green-500 transition-all duration-300 active:scale-95"
+                    >
                       ACTIVER
                     </button>
                   </div>
                 </div>
-                <div class="signal-card bg-[#0d0d0d] border border-green-700 rounded-lg overflow-hidden flex flex-col" data-game="apple">
-                  <img src="https://play-lh.googleusercontent.com/ezAY-TvV3PlhYWLs8k8czRjWWSdBwFtPrw72fNpS8p6wByC0xBG-Dgt0K5ojieZXrg" alt="Prédicteur d'IA Apple of Fortune" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/39ff14?text=Apple';">
+                <div
+                  class="signal-card bg-[#0d0d0d] border border-green-700 rounded-lg overflow-hidden flex flex-col"
+                  data-game="apple"
+                >
+                  <img
+                    src="https://play-lh.googleusercontent.com/ezAY-TvV3PlhYWLs8k8czRjWWSdBwFtPrw72fNpS8p6wByC0xBG-Dgt0K5ojieZXrg"
+                    alt="Prédicteur d'IA Apple of Fortune"
+                    class="w-full h-48 object-cover"
+                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/39ff14?text=Apple';"
+                  />
                   <div class="p-4 flex flex-col flex-grow text-center">
                     <h3 class="text-lg font-bold mb-2 flex-grow">
                       Prédicteur d'IA Apple of Fortune
                     </h3>
-                    <p id="stats-apple" class="text-sm text-gray-400 mb-3 font-mono leading-tight">
+                    <p
+                      id="stats-apple"
+                      class="text-sm text-gray-400 mb-3 font-mono leading-tight"
+                    >
                       // Chargement des données...
                     </p>
-                    <button class="activate-btn w-full mt-auto bg-green-600 text-black px-4 py-2 hover:bg-green-500 transition-all duration-300 active:scale-95">
+                    <button
+                      class="activate-btn w-full mt-auto bg-green-600 text-black px-4 py-2 hover:bg-green-500 transition-all duration-300 active:scale-95"
+                    >
                       ACTIVER
                     </button>
                   </div>
                 </div>
-                <div class="signal-card bg-[#0d0d0d] border border-green-700 rounded-lg overflow-hidden flex flex-col" data-game="chicken">
-                  <img src="https://cdn6.aptoide.com/imgs/1/0/2/1023a04c18a7a91673200703af12a58f_icon.png" alt="Prédicteur d'IA Chicken Road" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/39ff14?text=Chicken';">
+                <div
+                  class="signal-card bg-[#0d0d0d] border border-green-700 rounded-lg overflow-hidden flex flex-col"
+                  data-game="chicken"
+                >
+                  <img
+                    src="https://cdn6.aptoide.com/imgs/1/0/2/1023a04c18a7a91673200703af12a58f_icon.png"
+                    alt="Prédicteur d'IA Chicken Road"
+                    class="w-full h-48 object-cover"
+                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/39ff14?text=Chicken';"
+                  />
                   <div class="p-4 flex flex-col flex-grow text-center">
                     <h3 class="text-lg font-bold mb-2 flex-grow">
                       Prédicteur d'IA Chicken Road
                     </h3>
-                    <p id="stats-chicken" class="text-sm text-gray-400 mb-3 font-mono leading-tight">
+                    <p
+                      id="stats-chicken"
+                      class="text-sm text-gray-400 mb-3 font-mono leading-tight"
+                    >
                       // Chargement des données...
                     </p>
-                    <button class="activate-btn w-full mt-auto bg-green-600 text-black px-4 py-2 hover:bg-green-500 transition-all duration-300 active:scale-95">
+                    <button
+                      class="activate-btn w-full mt-auto bg-green-600 text-black px-4 py-2 hover:bg-green-500 transition-all duration-300 active:scale-95"
+                    >
                       ACTIVER
                     </button>
                   </div>
                 </div>
-                <div class="signal-card locked-card bg-[#0d0d0d] border border-yellow-700 rounded-lg overflow-hidden flex flex-col">
-                  <div class="w-full h-48 bg-black flex items-center justify-center overflow-hidden relative">
-                    <div class="absolute w-[150%] bg-red-600 text-white text-center font-bold py-2 -rotate-12 text-sm shadow-lg">
+                <div
+                  class="signal-card locked-card bg-[#0d0d0d] border border-yellow-700 rounded-lg overflow-hidden flex flex-col"
+                >
+                  <div
+                    class="w-full h-48 bg-black flex items-center justify-center overflow-hidden relative"
+                  >
+                    <div
+                      class="absolute w-[150%] bg-red-600 text-white text-center font-bold py-2 -rotate-12 text-sm shadow-lg"
+                    >
                       NÉCESSITE UN AUTRE CODE D'ACCÈS
                     </div>
                   </div>
                   <div class="p-4 flex flex-col flex-grow text-center">
-                    <h3 class="text-lg font-bold mb-2 flex-grow text-yellow-300" style="text-shadow: 0 0 8px #f6e05e">
+                    <h3
+                      class="text-lg font-bold mb-2 flex-grow text-yellow-300"
+                      style="text-shadow: 0 0 8px #f6e05e"
+                    >
                       Prédicteur d'IA VIP
                     </h3>
-                    <p id="stats-vip1" class="text-sm text-gray-400 mb-3 font-mono leading-tight">
+                    <p
+                      id="stats-vip1"
+                      class="text-sm text-gray-400 mb-3 font-mono leading-tight"
+                    >
                       // Chargement des données...
                     </p>
-                    <button class="w-full mt-auto bg-gray-600 text-gray-400 px-4 py-2 cursor-not-allowed" disabled="">
+                    <button
+                      class="w-full mt-auto bg-gray-600 text-gray-400 px-4 py-2 cursor-not-allowed"
+                      disabled
+                    >
                       ACTIVER
                     </button>
                   </div>
                 </div>
-                <div class="signal-card locked-card bg-[#0d0d0d] border border-yellow-700 rounded-lg overflow-hidden flex flex-col">
-                  <div class="w-full h-48 bg-black flex items-center justify-center overflow-hidden relative">
-                    <div class="absolute w-[150%] bg-red-600 text-white text-center font-bold py-2 -rotate-12 text-sm shadow-lg">
+                <div
+                  class="signal-card locked-card bg-[#0d0d0d] border border-yellow-700 rounded-lg overflow-hidden flex flex-col"
+                >
+                  <div
+                    class="w-full h-48 bg-black flex items-center justify-center overflow-hidden relative"
+                  >
+                    <div
+                      class="absolute w-[150%] bg-red-600 text-white text-center font-bold py-2 -rotate-12 text-sm shadow-lg"
+                    >
                       NÉCESSITE UN AUTRE CODE D'ACCÈS
                     </div>
                   </div>
                   <div class="p-4 flex flex-col flex-grow text-center">
-                    <h3 class="text-lg font-bold mb-2 flex-grow text-yellow-300" style="text-shadow: 0 0 8px #f6e05e">
+                    <h3
+                      class="text-lg font-bold mb-2 flex-grow text-yellow-300"
+                      style="text-shadow: 0 0 8px #f6e05e"
+                    >
                       Prédicteur d'IA VIP
                     </h3>
-                    <p id="stats-vip2" class="text-sm text-gray-400 mb-3 font-mono leading-tight">
+                    <p
+                      id="stats-vip2"
+                      class="text-sm text-gray-400 mb-3 font-mono leading-tight"
+                    >
                       // Chargement des données...
                     </p>
-                    <button class="w-full mt-auto bg-gray-600 text-gray-400 px-4 py-2 cursor-not-allowed" disabled="">
+                    <button
+                      class="w-full mt-auto bg-gray-600 text-gray-400 px-4 py-2 cursor-not-allowed"
+                      disabled
+                    >
                       ACTIVER
                     </button>
                   </div>
@@ -399,130 +757,239 @@
               </div>
             </div>
             <div id="game-view" class="hidden">
-              <div id="game-screen-aviator" class="game-screen hidden flex-col items-center justify-center">
+              <div
+                id="game-screen-aviator"
+                class="game-screen hidden flex-col items-center justify-center"
+              >
                 <div class="video-tutorial-section w-full p-4">
                   <div class="flex justify-start w-full mb-4">
-                    <button class="back-to-signals-btn text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black">
-                      &lt;-- Retour
+                    <button
+                      class="back-to-signals-btn text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black"
+                    >
+                      <-- Retour
                     </button>
                   </div>
                   <h3 class="text-3xl text-center text-cyan-300 mb-6">
                     Tout d'abord, trouvez le jeu "Aviator"
                   </h3>
-                  <div class="flex flex-col md:flex-row gap-6 justify-center items-start">
+                  <div
+                    class="flex flex-col md:flex-row gap-6 justify-center items-start"
+                  >
                     <div class="w-full md:w-1/2">
                       <h4 class="text-center mb-2 text-lg">
                         COMMENT TROUVER "AVIATOR" SUR LE WEB
                       </h4>
-                      <div class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden">
-                        <iframe class="w-full h-full" id="aviator-find-game-web-iframe" title="Lecteur vidéo YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+                      <div
+                        class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden"
+                      >
+                        <iframe
+                          class="w-full h-full"
+                          id="aviator-find-game-web-iframe"
+                          title="Lecteur vidéo YouTube"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                        ></iframe>
                       </div>
                     </div>
                     <div class="w-full md:w-1/2">
                       <h4 class="text-center mb-2 text-lg">
                         COMMENT TROUVER "AVIATOR" DANS L'APPLICATION
                       </h4>
-                      <div class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden">
-                        <iframe class="w-full h-full" id="aviator-find-game-app-iframe" title="Lecteur vidéo YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+                      <div
+                        class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden"
+                      >
+                        <iframe
+                          class="w-full h-full"
+                          id="aviator-find-game-app-iframe"
+                          title="Lecteur vidéo YouTube"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                        ></iframe>
                       </div>
                     </div>
                   </div>
                   <div class="text-center mt-8">
-                    <button class="i-found-game-btn bg-green-600 text-black px-8 py-3 text-lg hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md font-bold">
+                    <button
+                      class="i-found-game-btn bg-green-600 text-black px-8 py-3 text-lg hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md font-bold"
+                    >
                       J'AI TROUVÉ LE JEU
                     </button>
                   </div>
                 </div>
-                <div class="predictor-section hidden w-full relative min-h-[60vh] flex flex-col items-center justify-center bg-black/30 border border-green-800 rounded-md p-4 pt-16 pb-8">
+                <div
+                  class="predictor-section hidden w-full relative min-h-[60vh] flex flex-col items-center justify-center bg-black/30 border border-green-800 rounded-md p-4 pt-16 pb-8"
+                >
                   <div class="absolute top-4 left-4">
-                    <button class="back-to-signals-btn text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black">
-                      &lt;-- Retour
+                    <button
+                      class="back-to-signals-btn text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black"
+                    >
+                      <-- Retour
                     </button>
                   </div>
-                  <div class="absolute top-4 right-4 flex flex-col sm:flex-row gap-2">
-                    <button class="open-video-btn text-cyan-400 hover:text-cyan-300 transition-colors bg-transparent border border-cyan-400 rounded px-3 py-1 text-sm hover:bg-cyan-400 hover:text-black" data-videos-key="howToUse" data-game-key="aviator">
+                  <div
+                    class="absolute top-4 right-4 flex flex-col sm:flex-row gap-2"
+                  >
+                    <button
+                      class="open-video-btn text-cyan-400 hover:text-cyan-300 transition-colors bg-transparent border border-cyan-400 rounded px-3 py-1 text-sm hover:bg-cyan-400 hover:text-black"
+                      data-videos-key="howToUse"
+                      data-game-key="aviator"
+                    >
                       COMMENT UTILISER
                     </button>
                   </div>
-                  <h3 class="game-title text-3xl sm:text-4xl text-center mb-4 px-12 sm:px-0 mt-8 sm:mt-0">
+                  <h3
+                    class="game-title text-3xl sm:text-4xl text-center mb-4 px-12 sm:px-0 mt-8 sm:mt-0"
+                  >
                     Prédicteur d'IA AVIATOR
                   </h3>
                   <div class="mb-2 py-4">
-                    <p id="aviator-multiplier" class="text-7xl md:text-9xl font-mono text-center text-white transition-colors duration-500">
+                    <p
+                      id="aviator-multiplier"
+                      class="text-7xl md:text-9xl font-mono text-center text-white transition-colors duration-500"
+                    >
                       x1.00
                     </p>
                   </div>
-                  <p id="aviator-bet-suggestion" class="bet-suggestion-text text-center text-yellow-400 h-8 my-6 text-sm sm:text-xl font-bold px-2"></p>
-                  <div id="aviator-actions-initial" class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full max-w-md">
-                    <button id="aviator-get-bet-btn" class="flex-1 bg-green-600 text-black px-4 py-2 text-base hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md">
+                  <p
+                    id="aviator-bet-suggestion"
+                    class="bet-suggestion-text text-center text-yellow-400 h-8 my-6 text-sm sm:text-xl font-bold px-2"
+                  ></p>
+                  <div
+                    id="aviator-actions-initial"
+                    class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full max-w-md"
+                  >
+                    <button
+                      id="aviator-get-bet-btn"
+                      class="flex-1 bg-green-600 text-black px-4 py-2 text-base hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md"
+                    >
                       Obtenir le montant du pari
                     </button>
-                    <button id="aviator-get-signal-btn" class="flex-1 px-4 py-2 text-base transition-all duration-300 active:scale-95 rounded-md btn-disabled" disabled="">
+                    <button
+                      id="aviator-get-signal-btn"
+                      class="flex-1 px-4 py-2 text-base transition-all duration-300 active:scale-95 rounded-md btn-disabled"
+                      disabled
+                    >
                       Obtenir le signal
                     </button>
                   </div>
-                  <button id="aviator-get-another-btn" class="hidden w-full max-w-md bg-yellow-500 text-black px-4 py-2 text-base hover:bg-yellow-400 transition-all duration-300 active:scale-95 rounded-md">
+                  <button
+                    id="aviator-get-another-btn"
+                    class="hidden w-full max-w-md bg-yellow-500 text-black px-4 py-2 text-base hover:bg-yellow-400 transition-all duration-300 active:scale-95 rounded-md"
+                  >
                     OBTENIR UN AUTRE SIGNAL
                   </button>
-                  <div id="aviator-console" class="game-console w-full max-w-md border rounded-md mt-6 p-2 font-mono text-xs overflow-y-auto">
+                  <div
+                    id="aviator-console"
+                    class="game-console w-full max-w-md border rounded-md mt-6 p-2 font-mono text-xs overflow-y-auto"
+                  >
                     <div></div>
                   </div>
                 </div>
               </div>
 
-              <div id="game-screen-mines" class="game-screen hidden flex-col items-center justify-center">
+              <div
+                id="game-screen-mines"
+                class="game-screen hidden flex-col items-center justify-center"
+              >
                 <div class="video-tutorial-section w-full p-4">
                   <div class="flex justify-start w-full mb-4">
-                    <button class="back-to-signals-btn text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black">
-                      &lt;-- Retour
+                    <button
+                      class="back-to-signals-btn text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black"
+                    >
+                      <-- Retour
                     </button>
                   </div>
                   <h3 class="text-3xl text-center text-cyan-300 mb-6">
                     Tout d'abord, trouvez le jeu "Mines"
                   </h3>
-                  <div class="flex flex-col md:flex-row gap-6 justify-center items-start">
+                  <div
+                    class="flex flex-col md:flex-row gap-6 justify-center items-start"
+                  >
                     <div class="w-full md:w-1/2">
                       <h4 class="text-center mb-2 text-lg">
                         COMMENT TROUVER "MINES" SUR LE WEB
                       </h4>
-                      <div class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden">
-                        <iframe class="w-full h-full" id="mines-find-game-web-iframe" title="Lecteur vidéo YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+                      <div
+                        class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden"
+                      >
+                        <iframe
+                          class="w-full h-full"
+                          id="mines-find-game-web-iframe"
+                          title="Lecteur vidéo YouTube"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                        ></iframe>
                       </div>
                     </div>
                     <div class="w-full md:w-1/2">
                       <h4 class="text-center mb-2 text-lg">
                         COMMENT TROUVER "MINES" DANS L'APPLICATION
                       </h4>
-                      <div class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden">
-                        <iframe class="w-full h-full" id="mines-find-game-app-iframe" title="Lecteur vidéo YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+                      <div
+                        class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden"
+                      >
+                        <iframe
+                          class="w-full h-full"
+                          id="mines-find-game-app-iframe"
+                          title="Lecteur vidéo YouTube"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                        ></iframe>
                       </div>
                     </div>
                   </div>
                   <div class="text-center mt-8">
-                    <button class="i-found-game-btn bg-green-600 text-black px-8 py-3 text-lg hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md font-bold">
+                    <button
+                      class="i-found-game-btn bg-green-600 text-black px-8 py-3 text-lg hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md font-bold"
+                    >
                       J'AI TROUVÉ LE JEU
                     </button>
                   </div>
                 </div>
-                <div class="predictor-section hidden w-full relative min-h-[60vh] flex flex-col items-center justify-center bg-black/30 border border-green-800 rounded-md p-4 pt-16 pb-8">
-                  <button class="back-to-signals-btn absolute top-4 left-4 text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black">
-                    &lt;-- Retour
+                <div
+                  class="predictor-section hidden w-full relative min-h-[60vh] flex flex-col items-center justify-center bg-black/30 border border-green-800 rounded-md p-4 pt-16 pb-8"
+                >
+                  <button
+                    class="back-to-signals-btn absolute top-4 left-4 text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black"
+                  >
+                    <-- Retour
                   </button>
-                  <div class="absolute top-4 right-4 flex flex-col sm:flex-row gap-2">
-                    <button class="open-video-btn text-cyan-400 hover:text-cyan-300 transition-colors bg-transparent border border-cyan-400 rounded px-3 py-1 text-sm hover:bg-cyan-400 hover:text-black" data-videos-key="howToUse" data-game-key="mines">
+                  <div
+                    class="absolute top-4 right-4 flex flex-col sm:flex-row gap-2"
+                  >
+                    <button
+                      class="open-video-btn text-cyan-400 hover:text-cyan-300 transition-colors bg-transparent border border-cyan-400 rounded px-3 py-1 text-sm hover:bg-cyan-400 hover:text-black"
+                      data-videos-key="howToUse"
+                      data-game-key="mines"
+                    >
                       COMMENT UTILISER
                     </button>
                   </div>
-                  <h3 class="game-title text-3xl sm:text-4xl text-center mb-6 px-12 sm:px-0 mt-8 sm:mt-0">
+                  <h3
+                    class="game-title text-3xl sm:text-4xl text-center mb-6 px-12 sm:px-0 mt-8 sm:mt-0"
+                  >
                     Prédicteur d'IA MINES
                   </h3>
-                  <div class="flex flex-col sm:flex-row gap-6 mb-6 w-full max-w-lg">
+                  <div
+                    class="flex flex-col sm:flex-row gap-6 mb-6 w-full max-w-lg"
+                  >
                     <div class="relative flex-1" data-select-id="grid-size">
-                      <label class="block text-sm text-gray-400 mb-1">Taille de la grille</label>
-                      <button class="custom-select-trigger w-full bg-gray-900 border border-green-700 rounded p-3 flex justify-between items-center">
-                        <span class="selected-option">5x5</span><i class="fas fa-chevron-down text-xs"></i>
+                      <label class="block text-sm text-gray-400 mb-1"
+                        >Taille de la grille</label
+                      >
+                      <button
+                        class="custom-select-trigger w-full bg-gray-900 border border-green-700 rounded p-3 flex justify-between items-center"
+                      >
+                        <span class="selected-option">5x5</span
+                        ><i class="fas fa-chevron-down text-xs"></i>
                       </button>
-                      <div class="custom-select-options hidden absolute top-full left-0 right-0 mt-1 bg-gray-900 border border-green-700 rounded-md z-10 overflow-hidden">
+                      <div
+                        class="custom-select-options hidden absolute top-full left-0 right-0 mt-1 bg-gray-900 border border-green-700 rounded-md z-10 overflow-hidden"
+                      >
                         <div class="p-2 cursor-pointer hover:bg-green-800/50">
                           3x3
                         </div>
@@ -541,11 +1008,18 @@
                       </div>
                     </div>
                     <div class="relative flex-1" data-select-id="mine-count">
-                      <label class="block text-sm text-gray-400 mb-1">Nombre de mines</label>
-                      <button class="custom-select-trigger w-full bg-gray-900 border border-green-700 rounded p-3 flex justify-between items-center">
-                        <span class="selected-option">3</span><i class="fas fa-chevron-down text-xs"></i>
+                      <label class="block text-sm text-gray-400 mb-1"
+                        >Nombre de mines</label
+                      >
+                      <button
+                        class="custom-select-trigger w-full bg-gray-900 border border-green-700 rounded p-3 flex justify-between items-center"
+                      >
+                        <span class="selected-option">3</span
+                        ><i class="fas fa-chevron-down text-xs"></i>
                       </button>
-                      <div class="custom-select-options hidden absolute top-full left-0 right-0 mt-1 bg-gray-900 border border-green-700 rounded-md z-10 overflow-y-auto max-h-48">
+                      <div
+                        class="custom-select-options hidden absolute top-full left-0 right-0 mt-1 bg-gray-900 border border-green-700 rounded-md z-10 overflow-y-auto max-h-48"
+                      >
                         <div class="p-2 cursor-pointer hover:bg-green-800/50">
                           1
                         </div>
@@ -576,221 +1050,435 @@
                       </div>
                     </div>
                   </div>
-                  <div id="mines-grid-container" class="w-full max-w-md aspect-square mb-6"></div>
-                  <p id="mines-bet-suggestion" class="bet-suggestion-text text-center text-yellow-400 h-8 my-6 text-sm sm:text-xl font-bold p-2"></p>
-                  <div id="mines-actions-initial" class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full max-w-md">
-                    <button id="mines-get-bet-btn" class="flex-1 bg-green-600 text-black px-4 py-2 text-base hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md">
+                  <div
+                    id="mines-grid-container"
+                    class="w-full max-w-md aspect-square mb-6"
+                  ></div>
+                  <p
+                    id="mines-bet-suggestion"
+                    class="bet-suggestion-text text-center text-yellow-400 h-8 my-6 text-sm sm:text-xl font-bold p-2"
+                  ></p>
+                  <div
+                    id="mines-actions-initial"
+                    class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full max-w-md"
+                  >
+                    <button
+                      id="mines-get-bet-btn"
+                      class="flex-1 bg-green-600 text-black px-4 py-2 text-base hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md"
+                    >
                       Obtenir le montant du pari
                     </button>
-                    <button id="mines-get-signal-btn" class="flex-1 px-4 py-2 text-base transition-all duration-300 active:scale-95 rounded-md btn-disabled" disabled="">
+                    <button
+                      id="mines-get-signal-btn"
+                      class="flex-1 px-4 py-2 text-base transition-all duration-300 active:scale-95 rounded-md btn-disabled"
+                      disabled
+                    >
                       Obtenir le signal
                     </button>
                   </div>
-                  <button id="mines-get-another-btn" class="hidden w-full max-w-md bg-yellow-500 text-black px-4 py-2 text-base hover:bg-yellow-400 transition-all duration-300 active:scale-95 rounded-md">
+                  <button
+                    id="mines-get-another-btn"
+                    class="hidden w-full max-w-md bg-yellow-500 text-black px-4 py-2 text-base hover:bg-yellow-400 transition-all duration-300 active:scale-95 rounded-md"
+                  >
                     OBTENIR UN AUTRE SIGNAL
                   </button>
-                  <div id="mines-console" class="game-console w-full max-w-md border rounded-md mt-6 p-2 font-mono text-xs overflow-y-auto">
+                  <div
+                    id="mines-console"
+                    class="game-console w-full max-w-md border rounded-md mt-6 p-2 font-mono text-xs overflow-y-auto"
+                  >
                     <div></div>
                   </div>
                 </div>
               </div>
 
-              <div id="game-screen-penalty" class="game-screen hidden flex-col items-center justify-center">
+              <div
+                id="game-screen-penalty"
+                class="game-screen hidden flex-col items-center justify-center"
+              >
                 <div class="video-tutorial-section w-full p-4">
                   <div class="flex justify-start w-full mb-4">
-                    <button class="back-to-signals-btn text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black">
-                      &lt;-- Retour
+                    <button
+                      class="back-to-signals-btn text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black"
+                    >
+                      <-- Retour
                     </button>
                   </div>
                   <h3 class="text-3xl text-center text-cyan-300 mb-6">
                     Tout d'abord, trouvez le jeu "Penalty"
                   </h3>
-                  <div class="flex flex-col md:flex-row gap-6 justify-center items-start">
+                  <div
+                    class="flex flex-col md:flex-row gap-6 justify-center items-start"
+                  >
                     <div class="w-full md:w-1/2">
                       <h4 class="text-center mb-2 text-lg">
                         COMMENT TROUVER "PENALTY" SUR LE WEB
                       </h4>
-                      <div class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden">
-                        <iframe class="w-full h-full" id="penalty-find-game-web-iframe" title="Lecteur vidéo YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+                      <div
+                        class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden"
+                      >
+                        <iframe
+                          class="w-full h-full"
+                          id="penalty-find-game-web-iframe"
+                          title="Lecteur vidéo YouTube"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                        ></iframe>
                       </div>
                     </div>
                     <div class="w-full md:w-1/2">
                       <h4 class="text-center mb-2 text-lg">
                         COMMENT TROUVER "PENALTY" DANS L'APPLICATION
                       </h4>
-                      <div class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden">
-                        <iframe class="w-full h-full" id="penalty-find-game-app-iframe" title="Lecteur vidéo YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+                      <div
+                        class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden"
+                      >
+                        <iframe
+                          class="w-full h-full"
+                          id="penalty-find-game-app-iframe"
+                          title="Lecteur vidéo YouTube"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                        ></iframe>
                       </div>
                     </div>
                   </div>
                   <div class="text-center mt-8">
-                    <button class="i-found-game-btn bg-green-600 text-black px-8 py-3 text-lg hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md font-bold">
+                    <button
+                      class="i-found-game-btn bg-green-600 text-black px-8 py-3 text-lg hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md font-bold"
+                    >
                       J'AI TROUVÉ LE JEU
                     </button>
                   </div>
                 </div>
-                <div class="predictor-section hidden w-full relative min-h-[60vh] flex flex-col items-center justify-center bg-black/30 border border-green-800 rounded-md p-4 pt-16 pb-8">
-                  <button class="back-to-signals-btn absolute top-4 left-4 text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black">
-                    &lt;-- Retour
+                <div
+                  class="predictor-section hidden w-full relative min-h-[60vh] flex flex-col items-center justify-center bg-black/30 border border-green-800 rounded-md p-4 pt-16 pb-8"
+                >
+                  <button
+                    class="back-to-signals-btn absolute top-4 left-4 text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black"
+                  >
+                    <-- Retour
                   </button>
-                  <div class="absolute top-4 right-4 flex flex-col sm:flex-row gap-2">
-                    <button class="open-video-btn text-cyan-400 hover:text-cyan-300 transition-colors bg-transparent border border-cyan-400 rounded px-3 py-1 text-sm hover:bg-cyan-400 hover:text-black" data-videos-key="howToUse" data-game-key="penalty">
+                  <div
+                    class="absolute top-4 right-4 flex flex-col sm:flex-row gap-2"
+                  >
+                    <button
+                      class="open-video-btn text-cyan-400 hover:text-cyan-300 transition-colors bg-transparent border border-cyan-400 rounded px-3 py-1 text-sm hover:bg-cyan-400 hover:text-black"
+                      data-videos-key="howToUse"
+                      data-game-key="penalty"
+                    >
                       COMMENT UTILISER
                     </button>
                   </div>
-                  <h3 class="game-title text-3xl sm:text-4xl text-center mb-6 px-12 sm:px-0 mt-8 sm:mt-0">
+                  <h3
+                    class="game-title text-3xl sm:text-4xl text-center mb-6 px-12 sm:px-0 mt-8 sm:mt-0"
+                  >
                     Prédicteur d'IA PENALTY
                   </h3>
-                  <div class="relative w-full max-w-lg h-64 md:h-80 bg-gray-900/20 border-2 border-gray-600 mb-6">
-                    <div class="penalty-gate-post absolute left-0 top-0 w-2 h-full"></div>
-                    <div class="penalty-gate-post absolute right-0 top-0 w-2 h-full"></div>
-                    <div class="penalty-gate-post absolute left-0 top-0 w-full h-2"></div>
-                    <div data-zone="1" class="penalty-target-zone absolute top-4 left-4 w-16 h-16 md:w-20 md:h-20 rounded-full"></div>
-                    <div data-zone="2" class="penalty-target-zone absolute top-4 right-4 w-16 h-16 md:w-20 md:h-20 rounded-full"></div>
-                    <div data-zone="3" class="penalty-target-zone absolute top-4 left-1/2 -translate-x-1/2 w-16 h-16 md:w-20 md:h-20 rounded-full"></div>
-                    <div data-zone="4" class="penalty-target-zone absolute bottom-4 left-4 w-16 h-16 md:w-20 md:h-20 rounded-full"></div>
-                    <div data-zone="5" class="penalty-target-zone absolute bottom-4 right-4 w-16 h-16 md:w-20 md:h-20 rounded-full"></div>
+                  <div
+                    class="relative w-full max-w-lg h-64 md:h-80 bg-gray-900/20 border-2 border-gray-600 mb-6"
+                  >
+                    <div
+                      class="penalty-gate-post absolute left-0 top-0 w-2 h-full"
+                    ></div>
+                    <div
+                      class="penalty-gate-post absolute right-0 top-0 w-2 h-full"
+                    ></div>
+                    <div
+                      class="penalty-gate-post absolute left-0 top-0 w-full h-2"
+                    ></div>
+                    <div
+                      data-zone="1"
+                      class="penalty-target-zone absolute top-4 left-4 w-16 h-16 md:w-20 md:h-20 rounded-full"
+                    ></div>
+                    <div
+                      data-zone="2"
+                      class="penalty-target-zone absolute top-4 right-4 w-16 h-16 md:w-20 md:h-20 rounded-full"
+                    ></div>
+                    <div
+                      data-zone="3"
+                      class="penalty-target-zone absolute top-4 left-1/2 -translate-x-1/2 w-16 h-16 md:w-20 md:h-20 rounded-full"
+                    ></div>
+                    <div
+                      data-zone="4"
+                      class="penalty-target-zone absolute bottom-4 left-4 w-16 h-16 md:w-20 md:h-20 rounded-full"
+                    ></div>
+                    <div
+                      data-zone="5"
+                      class="penalty-target-zone absolute bottom-4 right-4 w-16 h-16 md:w-20 md:h-20 rounded-full"
+                    ></div>
                   </div>
-                  <p id="penalty-bet-suggestion" class="bet-suggestion-text text-center text-yellow-400 h-8 my-6 text-sm sm:text-xl font-bold px-2"></p>
-                  <div id="penalty-actions-initial" class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full max-w-md">
-                    <button id="penalty-get-bet-btn" class="flex-1 bg-green-600 text-black px-4 py-2 text-base hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md">
+                  <p
+                    id="penalty-bet-suggestion"
+                    class="bet-suggestion-text text-center text-yellow-400 h-8 my-6 text-sm sm:text-xl font-bold px-2"
+                  ></p>
+                  <div
+                    id="penalty-actions-initial"
+                    class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full max-w-md"
+                  >
+                    <button
+                      id="penalty-get-bet-btn"
+                      class="flex-1 bg-green-600 text-black px-4 py-2 text-base hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md"
+                    >
                       Obtenir le montant du pari
                     </button>
-                    <button id="penalty-get-signal-btn" class="flex-1 px-4 py-2 text-base transition-all duration-300 active:scale-95 rounded-md btn-disabled" disabled="">
+                    <button
+                      id="penalty-get-signal-btn"
+                      class="flex-1 px-4 py-2 text-base transition-all duration-300 active:scale-95 rounded-md btn-disabled"
+                      disabled
+                    >
                       Obtenir le signal
                     </button>
                   </div>
-                  <button id="penalty-start-new-game-btn" class="hidden w-full max-w-md bg-yellow-500 text-black px-6 py-3 text-lg hover:bg-yellow-400 transition-all duration-300 active:scale-95 rounded-md mt-4">
+                  <button
+                    id="penalty-start-new-game-btn"
+                    class="hidden w-full max-w-md bg-yellow-500 text-black px-6 py-3 text-lg hover:bg-yellow-400 transition-all duration-300 active:scale-95 rounded-md mt-4"
+                  >
                     Commencer une nouvelle partie
                   </button>
-                  <div id="penalty-console" class="game-console w-full max-w-md border rounded-md mt-6 p-2 font-mono text-xs overflow-y-auto">
+                  <div
+                    id="penalty-console"
+                    class="game-console w-full max-w-md border rounded-md mt-6 p-2 font-mono text-xs overflow-y-auto"
+                  >
                     <div></div>
                   </div>
                 </div>
               </div>
 
-              <div id="game-screen-apple" class="game-screen hidden flex-col items-center justify-center">
+              <div
+                id="game-screen-apple"
+                class="game-screen hidden flex-col items-center justify-center"
+              >
                 <div class="video-tutorial-section w-full p-4">
                   <div class="flex justify-start w-full mb-4">
-                    <button class="back-to-signals-btn text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black">
-                      &lt;-- Retour
+                    <button
+                      class="back-to-signals-btn text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black"
+                    >
+                      <-- Retour
                     </button>
                   </div>
                   <h3 class="text-3xl text-center text-cyan-300 mb-6">
                     Tout d'abord, trouvez le jeu "Apple of Fortune"
                   </h3>
-                  <div class="flex flex-col md:flex-row gap-6 justify-center items-start">
+                  <div
+                    class="flex flex-col md:flex-row gap-6 justify-center items-start"
+                  >
                     <div class="w-full md:w-1/2">
                       <h4 class="text-center mb-2 text-lg">
                         COMMENT TROUVER "APPLE OF FORTUNE" SUR LE WEB
                       </h4>
-                      <div class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden">
-                        <iframe class="w-full h-full" id="apple-find-game-web-iframe" title="Lecteur vidéo YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+                      <div
+                        class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden"
+                      >
+                        <iframe
+                          class="w-full h-full"
+                          id="apple-find-game-web-iframe"
+                          title="Lecteur vidéo YouTube"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                        ></iframe>
                       </div>
                     </div>
                     <div class="w-full md:w-1/2">
                       <h4 class="text-center mb-2 text-lg">
                         COMMENT TROUVER "APPLE OF FORTUNE" DANS L'APPLICATION
                       </h4>
-                      <div class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden">
-                        <iframe class="w-full h-full" id="apple-find-game-app-iframe" title="Lecteur vidéo YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+                      <div
+                        class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden"
+                      >
+                        <iframe
+                          class="w-full h-full"
+                          id="apple-find-game-app-iframe"
+                          title="Lecteur vidéo YouTube"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                        ></iframe>
                       </div>
                     </div>
                   </div>
                   <div class="text-center mt-8">
-                    <button class="i-found-game-btn bg-green-600 text-black px-8 py-3 text-lg hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md font-bold">
+                    <button
+                      class="i-found-game-btn bg-green-600 text-black px-8 py-3 text-lg hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md font-bold"
+                    >
                       J'AI TROUVÉ LE JEU
                     </button>
                   </div>
                 </div>
-                <div class="predictor-section hidden w-full relative min-h-[60vh] flex flex-col items-center justify-center bg-black/30 border border-green-800 rounded-md p-4 pt-16 pb-8">
-                  <button class="back-to-signals-btn absolute top-4 left-4 text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black">
-                    &lt;-- Retour
+                <div
+                  class="predictor-section hidden w-full relative min-h-[60vh] flex flex-col items-center justify-center bg-black/30 border border-green-800 rounded-md p-4 pt-16 pb-8"
+                >
+                  <button
+                    class="back-to-signals-btn absolute top-4 left-4 text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black"
+                  >
+                    <-- Retour
                   </button>
-                  <div class="absolute top-4 right-4 flex flex-col sm:flex-row gap-2">
-                    <button class="open-video-btn text-cyan-400 hover:text-cyan-300 transition-colors bg-transparent border border-cyan-400 rounded px-3 py-1 text-sm hover:bg-cyan-400 hover:text-black" data-videos-key="howToUse" data-game-key="apple">
+                  <div
+                    class="absolute top-4 right-4 flex flex-col sm:flex-row gap-2"
+                  >
+                    <button
+                      class="open-video-btn text-cyan-400 hover:text-cyan-300 transition-colors bg-transparent border border-cyan-400 rounded px-3 py-1 text-sm hover:bg-cyan-400 hover:text-black"
+                      data-videos-key="howToUse"
+                      data-game-key="apple"
+                    >
                       COMMENT UTILISER
                     </button>
                   </div>
-                  <h3 class="game-title text-3xl sm:text-4xl text-center mb-4 px-12 sm:px-0 mt-8 sm:mt-0">
+                  <h3
+                    class="game-title text-3xl sm:text-4xl text-center mb-4 px-12 sm:px-0 mt-8 sm:mt-0"
+                  >
                     Prédicteur d'IA Apple of Fortune
                   </h3>
                   <div class="flex-grow flex items-center justify-center">
-                    <p id="apple-signal-display" class="text-9xl font-mono text-center text-white">
+                    <p
+                      id="apple-signal-display"
+                      class="text-9xl font-mono text-center text-white"
+                    >
                       #
                     </p>
                   </div>
-                  <p id="apple-bet-suggestion" class="bet-suggestion-text text-center text-yellow-400 h-8 my-6 text-sm sm:text-xl font-bold px-2"></p>
-                  <div id="apple-actions-initial" class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full max-w-md">
-                    <button id="apple-get-bet-btn" class="flex-1 bg-green-600 text-black px-4 py-2 text-base hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md">
+                  <p
+                    id="apple-bet-suggestion"
+                    class="bet-suggestion-text text-center text-yellow-400 h-8 my-6 text-sm sm:text-xl font-bold px-2"
+                  ></p>
+                  <div
+                    id="apple-actions-initial"
+                    class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full max-w-md"
+                  >
+                    <button
+                      id="apple-get-bet-btn"
+                      class="flex-1 bg-green-600 text-black px-4 py-2 text-base hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md"
+                    >
                       Obtenir le montant du pari
                     </button>
-                    <button id="apple-get-signal-btn" class="flex-1 px-4 py-2 text-base transition-all duration-300 active:scale-95 rounded-md btn-disabled" disabled="">
+                    <button
+                      id="apple-get-signal-btn"
+                      class="flex-1 px-4 py-2 text-base transition-all duration-300 active:scale-95 rounded-md btn-disabled"
+                      disabled
+                    >
                       Obtenir le signal
                     </button>
                   </div>
-                  <button id="apple-start-new-game-btn" class="hidden w-full max-w-md bg-yellow-500 text-black px-6 py-3 text-lg hover:bg-yellow-400 transition-all duration-300 active:scale-95 rounded-md mt-4">
+                  <button
+                    id="apple-start-new-game-btn"
+                    class="hidden w-full max-w-md bg-yellow-500 text-black px-6 py-3 text-lg hover:bg-yellow-400 transition-all duration-300 active:scale-95 rounded-md mt-4"
+                  >
                     Commencer une nouvelle partie
                   </button>
-                  <div id="apple-console" class="game-console w-full max-w-md border rounded-md mt-6 p-2 font-mono text-xs overflow-y-auto">
+                  <div
+                    id="apple-console"
+                    class="game-console w-full max-w-md border rounded-md mt-6 p-2 font-mono text-xs overflow-y-auto"
+                  >
                     <div></div>
                   </div>
                 </div>
               </div>
 
-              <div id="game-screen-chicken" class="game-screen hidden flex-col items-center justify-center">
+              <div
+                id="game-screen-chicken"
+                class="game-screen hidden flex-col items-center justify-center"
+              >
                 <div class="video-tutorial-section w-full p-4">
                   <div class="flex justify-start w-full mb-4">
-                    <button class="back-to-signals-btn text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black">
-                      &lt;-- Retour
+                    <button
+                      class="back-to-signals-btn text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black"
+                    >
+                      <-- Retour
                     </button>
                   </div>
                   <h3 class="text-3xl text-center text-cyan-300 mb-6">
                     Tout d'abord, trouvez le jeu "Chicken Road"
                   </h3>
-                  <div class="flex flex-col md:flex-row gap-6 justify-center items-start">
+                  <div
+                    class="flex flex-col md:flex-row gap-6 justify-center items-start"
+                  >
                     <div class="w-full md:w-1/2">
                       <h4 class="text-center mb-2 text-lg">
                         COMMENT TROUVER "CHICKEN ROAD" SUR LE WEB
                       </h4>
-                      <div class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden">
-                        <iframe class="w-full h-full" id="chicken-find-game-web-iframe" title="Lecteur vidéo YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+                      <div
+                        class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden"
+                      >
+                        <iframe
+                          class="w-full h-full"
+                          id="chicken-find-game-web-iframe"
+                          title="Lecteur vidéo YouTube"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                        ></iframe>
                       </div>
                     </div>
                     <div class="w-full md:w-1/2">
                       <h4 class="text-center mb-2 text-lg">
                         COMMENT TROUVER "CHICKEN ROAD" DANS L'APPLICATION
                       </h4>
-                      <div class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden">
-                        <iframe class="w-full h-full" id="chicken-find-game-app-iframe" title="Lecteur vidéo YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+                      <div
+                        class="aspect-video bg-black border border-cyan-700 rounded-lg overflow-hidden"
+                      >
+                        <iframe
+                          class="w-full h-full"
+                          id="chicken-find-game-app-iframe"
+                          title="Lecteur vidéo YouTube"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowfullscreen
+                        ></iframe>
                       </div>
                     </div>
                   </div>
                   <div class="text-center mt-8">
-                    <button class="i-found-game-btn bg-green-600 text-black px-8 py-3 text-lg hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md font-bold">
+                    <button
+                      class="i-found-game-btn bg-green-600 text-black px-8 py-3 text-lg hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md font-bold"
+                    >
                       J'AI TROUVÉ LE JEU
                     </button>
                   </div>
                 </div>
-                <div class="predictor-section hidden w-full relative min-h-[60vh] flex flex-col items-center justify-center bg-black/30 border border-green-800 rounded-md p-4 pt-16 pb-8">
-                  <button class="back-to-signals-btn absolute top-4 left-4 text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black">
-                    &lt;-- Retour
+                <div
+                  class="predictor-section hidden w-full relative min-h-[60vh] flex flex-col items-center justify-center bg-black/30 border border-green-800 rounded-md p-4 pt-16 pb-8"
+                >
+                  <button
+                    class="back-to-signals-btn absolute top-4 left-4 text-yellow-400 hover:text-yellow-300 transition-colors bg-transparent border border-yellow-400 rounded px-3 py-1 text-sm hover:bg-yellow-400 hover:text-black"
+                  >
+                    <-- Retour
                   </button>
-                  <div class="absolute top-4 right-4 flex flex-col sm:flex-row gap-2">
-                    <button class="open-video-btn text-cyan-400 hover:text-cyan-300 transition-colors bg-transparent border border-cyan-400 rounded px-3 py-1 text-sm hover:bg-cyan-400 hover:text-black" data-videos-key="howToUse" data-game-key="chicken">
+                  <div
+                    class="absolute top-4 right-4 flex flex-col sm:flex-row gap-2"
+                  >
+                    <button
+                      class="open-video-btn text-cyan-400 hover:text-cyan-300 transition-colors bg-transparent border border-cyan-400 rounded px-3 py-1 text-sm hover:bg-cyan-400 hover:text-black"
+                      data-videos-key="howToUse"
+                      data-game-key="chicken"
+                    >
                       COMMENT UTILISER
                     </button>
                   </div>
-                  <h3 class="game-title text-3xl sm:text-4xl text-center mb-4 px-12 sm:px-0 mt-8 sm:mt-0">
+                  <h3
+                    class="game-title text-3xl sm:text-4xl text-center mb-4 px-12 sm:px-0 mt-8 sm:mt-0"
+                  >
                     Prédicteur d'IA Chicken Road
                   </h3>
                   <div class="w-full flex justify-center mb-4">
-                    <div class="relative w-full max-w-xs" data-select-id="chicken-difficulty">
-                      <label class="block text-sm text-gray-400 mb-1 text-center">Difficulté</label>
-                      <button class="custom-select-trigger w-full bg-gray-900 border border-green-700 rounded p-3 flex justify-between items-center">
-                        <span class="selected-option">Facile</span><i class="fas fa-chevron-down text-xs"></i>
+                    <div
+                      class="relative w-full max-w-xs"
+                      data-select-id="chicken-difficulty"
+                    >
+                      <label
+                        class="block text-sm text-gray-400 mb-1 text-center"
+                        >Difficulté</label
+                      >
+                      <button
+                        class="custom-select-trigger w-full bg-gray-900 border border-green-700 rounded p-3 flex justify-between items-center"
+                      >
+                        <span class="selected-option">Facile</span
+                        ><i class="fas fa-chevron-down text-xs"></i>
                       </button>
-                      <div class="custom-select-options hidden absolute top-full left-0 right-0 mt-1 bg-gray-900 border border-green-700 rounded-md z-10 overflow-hidden">
+                      <div
+                        class="custom-select-options hidden absolute top-full left-0 right-0 mt-1 bg-gray-900 border border-green-700 rounded-md z-10 overflow-hidden"
+                      >
                         <div class="p-2 cursor-pointer hover:bg-green-800/50">
                           Facile
                         </div>
@@ -806,73 +1494,163 @@
                       </div>
                     </div>
                   </div>
-                  <div id="chicken-road-viewport" class="w-full h-24 relative rounded-md border-y-4 border-gray-500">
-                    <div id="chicken-road-track" class="h-full relative flex items-center"></div>
-                    <img id="chicken-icon" src="https://iili.io/FvIoXhg.webp" class="absolute h-16 w-16 top-1/2" alt="Poulet">
+                  <div
+                    id="chicken-road-viewport"
+                    class="w-full h-24 relative rounded-md border-y-4 border-gray-500"
+                  >
+                    <div
+                      id="chicken-road-track"
+                      class="h-full relative flex items-center"
+                    ></div>
+                    <img
+                      id="chicken-icon"
+                      src="https://iili.io/FvIoXhg.webp"
+                      class="absolute h-16 w-16 top-1/2"
+                      alt="Poulet"
+                    />
                   </div>
-                  <p id="chicken-bet-suggestion" class="bet-suggestion-text text-center text-yellow-400 h-8 my-6 text-sm sm:text-xl font-bold px-2"></p>
-                  <div id="chicken-actions-initial" class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full max-w-md">
-                    <button id="chicken-get-bet-btn" class="flex-1 bg-green-600 text-black px-4 py-2 text-base hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md">
+                  <p
+                    id="chicken-bet-suggestion"
+                    class="bet-suggestion-text text-center text-yellow-400 h-8 my-6 text-sm sm:text-xl font-bold px-2"
+                  ></p>
+                  <div
+                    id="chicken-actions-initial"
+                    class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full max-w-md"
+                  >
+                    <button
+                      id="chicken-get-bet-btn"
+                      class="flex-1 bg-green-600 text-black px-4 py-2 text-base hover:bg-green-500 transition-all duration-300 active:scale-95 rounded-md"
+                    >
                       Obtenir le montant du pari
                     </button>
-                    <button id="chicken-get-signal-btn" class="flex-1 px-4 py-2 text-base transition-all duration-300 active:scale-95 rounded-md btn-disabled" disabled="">
+                    <button
+                      id="chicken-get-signal-btn"
+                      class="flex-1 px-4 py-2 text-base transition-all duration-300 active:scale-95 rounded-md btn-disabled"
+                      disabled
+                    >
                       Obtenir le signal
                     </button>
                   </div>
-                  <button id="chicken-get-another-btn" class="hidden w-full max-w-md bg-yellow-500 text-black px-4 py-2 text-base hover:bg-yellow-400 transition-all duration-300 active:scale-95 rounded-md">
+                  <button
+                    id="chicken-get-another-btn"
+                    class="hidden w-full max-w-md bg-yellow-500 text-black px-4 py-2 text-base hover:bg-yellow-400 transition-all duration-300 active:scale-95 rounded-md"
+                  >
                     OBTENIR UN AUTRE SIGNAL
                   </button>
-                  <div id="chicken-console" class="game-console w-full max-w-md border rounded-md mt-6 p-2 font-mono text-xs overflow-y-auto">
+                  <div
+                    id="chicken-console"
+                    class="game-console w-full max-w-md border rounded-md mt-6 p-2 font-mono text-xs overflow-y-auto"
+                  >
                     <div></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div id="accessModal" class="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-            <div id="modalContainer" class="bg-[#0d0d0d] border border-green-500 rounded-lg p-6 md:p-8 w-full max-w-sm relative shadow-2xl shadow-green-500/30">
-              <button id="closeModalBtn" class="absolute top-2 right-3 text-gray-500 hover:text-green-400 text-3xl transition-colors">
+          <div
+            id="accessModal"
+            class="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-sm flex items-center justify-center p-4 hidden"
+          >
+            <div
+              id="modalContainer"
+              class="bg-[#0d0d0d] border border-green-500 rounded-lg p-6 md:p-8 w-full max-w-sm relative shadow-2xl shadow-green-500/30"
+            >
+              <button
+                id="closeModalBtn"
+                class="absolute top-2 right-3 text-gray-500 hover:text-green-400 text-3xl transition-colors"
+              >
                 ×
               </button>
               <div id="formContent" class="text-center">
                 <p class="blinking-red text-sm mb-4">
                   // 3 codes d'accès disponibles aujourd'hui
                 </p>
-                <label for="accessCode" class="block text-xl mb-4">Entrez le code d'accès</label><input type="text" id="accessCode" name="accessCode" class="hacker-input w-full bg-gray-900 border border-green-600 text-green-300 rounded p-3 text-center focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all" placeholder="Code d'accès">
+                <label for="accessCode" class="block text-xl mb-4"
+                  >Entrez le code d'accès</label
+                ><input
+                  type="text"
+                  id="accessCode"
+                  name="accessCode"
+                  class="hacker-input w-full bg-gray-900 border border-green-600 text-green-300 rounded p-3 text-center focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                  placeholder="Code d'accès"
+                />
                 <p id="errorMessage" class="text-red-500 h-5 mt-2 text-sm"></p>
-                <button id="validateBtn" class="mt-4 w-full bg-green-600 text-black px-6 py-2 text-lg hover:bg-green-500 transition-all duration-300 active:scale-95">
+                <button
+                  id="validateBtn"
+                  class="mt-4 w-full bg-green-600 text-black px-6 py-2 text-lg hover:bg-green-500 transition-all duration-300 active:scale-95"
+                >
                   VALIDER
                 </button>
               </div>
-              <div id="statusContent" class="text-center hidden h-36 flex items-center justify-center">
+              <div
+                id="statusContent"
+                class="text-center hidden h-36 flex items-center justify-center"
+              >
                 <p id="statusText" class="text-2xl animate-pulse"></p>
               </div>
             </div>
           </div>
-          <div id="videoModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden z-50">
-            <div id="videoModalContainer" class="bg-[#0d0d0d] border border-green-500 rounded-lg w-full max-w-2xl relative shadow-2xl shadow-green-500/30">
-              <button id="closeVideoModalBtn" class="absolute -top-3 -right-3 text-black bg-white rounded-full h-8 w-8 flex items-center justify-center hover:bg-gray-200 text-2xl transition-colors z-10">
+          <div
+            id="videoModal"
+            class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden z-50"
+          >
+            <div
+              id="videoModalContainer"
+              class="bg-[#0d0d0d] border border-green-500 rounded-lg w-full max-w-2xl relative shadow-2xl shadow-green-500/30"
+            >
+              <button
+                id="closeVideoModalBtn"
+                class="absolute -top-3 -right-3 text-black bg-white rounded-full h-8 w-8 flex items-center justify-center hover:bg-gray-200 text-2xl transition-colors z-10"
+              >
                 ×
               </button>
-              <h3 id="videoModalTitle" class="text-white text-xl p-4 text-center"></h3>
+              <h3
+                id="videoModalTitle"
+                class="text-white text-xl p-4 text-center"
+              ></h3>
               <div class="aspect-video">
-                <iframe id="youtube-player" class="w-full h-full" src="" title="Lecteur vidéo YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+                <iframe
+                  id="youtube-player"
+                  class="w-full h-full"
+                  src=""
+                  title="Lecteur vidéo YouTube"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                ></iframe>
               </div>
-              <div id="video-navigation" class="p-2 flex justify-center items-center gap-4">
-                <button id="prevVideoBtn" class="text-white disabled:text-gray-600">
+              <div
+                id="video-navigation"
+                class="p-2 flex justify-center items-center gap-4"
+              >
+                <button
+                  id="prevVideoBtn"
+                  class="text-white disabled:text-gray-600"
+                >
                   <i class="fas fa-arrow-left"></i>
                 </button>
                 <span id="video-counter" class="text-sm text-gray-400"></span>
-                <button id="nextVideoBtn" class="text-white disabled:text-gray-600">
+                <button
+                  id="nextVideoBtn"
+                  class="text-white disabled:text-gray-600"
+                >
                   <i class="fas fa-arrow-right"></i>
                 </button>
               </div>
             </div>
           </div>
 
-          <div id="promoModal" class="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-sm flex items-center justify-center p-4 hidden z-[80]">
-            <div class="bg-[#0d0d0d] border border-yellow-500 rounded-lg p-6 w-full max-w-lg relative shadow-2xl shadow-yellow-500/30 text-center">
-              <button id="closePromoModalBtn" class="absolute top-2 right-3 text-gray-500 hover:text-yellow-400 text-3xl transition-colors">
+          <div
+            id="promoModal"
+            class="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-sm flex items-center justify-center p-4 hidden z-[80]"
+          >
+            <div
+              class="bg-[#0d0d0d] border border-yellow-500 rounded-lg p-6 w-full max-w-lg relative shadow-2xl shadow-yellow-500/30 text-center"
+            >
+              <button
+                id="closePromoModalBtn"
+                class="absolute top-2 right-3 text-gray-500 hover:text-yellow-400 text-3xl transition-colors"
+              >
                 ×
               </button>
               <h2 class="text-2xl text-yellow-300 mb-4 font-bold">
@@ -885,56 +1663,113 @@
                 spéciaux, écrivez-moi le mot "WHEEL999" pour obtenir des
                 instructions sur comment obtenir un code spécial !
               </p>
-              <button id="openLotteryFromPromoBtn" class="shimmer-btn rounded-md px-8 py-3 text-lg">
+              <button
+                id="openLotteryFromPromoBtn"
+                class="shimmer-btn rounded-md px-8 py-3 text-lg"
+              >
                 <i class="fas fa-star mr-2"></i>Aller à la Roue de la Fortune
               </button>
             </div>
           </div>
 
-          <div id="lotteryModal" class="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-sm flex items-center justify-center p-4 hidden z-[60]">
-            <div class="bg-[#0d0d0d] border border-yellow-500 rounded-lg p-4 sm:p-6 md:p-8 w-full max-w-md sm:max-w-lg md:max-w-xl relative shadow-2xl shadow-yellow-500/30 text-center overflow-hidden">
-              <canvas id="confettiCanvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-20"></canvas>
-              <button id="closeLotteryModalBtn" class="absolute top-2 right-3 text-gray-500 hover:text-yellow-400 text-3xl transition-colors z-10">
+          <div
+            id="lotteryModal"
+            class="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-sm flex items-center justify-center p-4 hidden z-[60]"
+          >
+            <div
+              class="bg-[#0d0d0d] border border-yellow-500 rounded-lg p-4 sm:p-6 md:p-8 w-full max-w-md sm:max-w-lg md:max-w-xl relative shadow-2xl shadow-yellow-500/30 text-center overflow-hidden"
+            >
+              <canvas
+                id="confettiCanvas"
+                class="absolute top-0 left-0 w-full h-full pointer-events-none z-20"
+              ></canvas>
+              <button
+                id="closeLotteryModalBtn"
+                class="absolute top-2 right-3 text-gray-500 hover:text-yellow-400 text-3xl transition-colors z-10"
+              >
                 ×
               </button>
-              <h2 class="text-3xl text-yellow-300 mb-4 font-bold" style="text-shadow: 0 0 8px #f6e05e">
+              <h2
+                class="text-3xl text-yellow-300 mb-4 font-bold"
+                style="text-shadow: 0 0 8px #f6e05e"
+              >
                 Roue de la Fortune
               </h2>
-              <div id="wheel-container" class="relative w-full max-w-[300px] sm:max-w-[400px] md:max-w-[450px] aspect-square mx-auto my-4 flex items-center justify-center">
-                <div id="wheel-pointer" class="absolute top-1/2 -right-4 -translate-y-1/2 w-0 h-0 border-t-[15px] sm:border-t-[20px] border-t-transparent border-b-[15px] sm:border-b-[20px] border-b-transparent border-l-[25px] sm:border-l-[30px] border-l-red-600 z-10 transform-gpu"></div>
+              <div
+                id="wheel-container"
+                class="relative w-full max-w-[300px] sm:max-w-[400px] md:max-w-[450px] aspect-square mx-auto my-4 flex items-center justify-center"
+              >
+                <div
+                  id="wheel-pointer"
+                  class="absolute top-1/2 -right-4 -translate-y-1/2 w-0 h-0 border-t-[15px] sm:border-t-[20px] border-t-transparent border-b-[15px] sm:border-b-[20px] border-b-transparent border-l-[25px] sm:border-l-[30px] border-l-red-600 z-10 transform-gpu"
+                ></div>
                 <canvas id="wheelCanvas"></canvas>
               </div>
               <div id="lottery-controls" class="flex flex-col items-center">
-                <label for="lotteryCode" class="block text-lg mb-2 text-gray-300">Entrez votre code spécial</label>
-                <input type="text" id="lotteryCode" class="hacker-input w-full max-w-xs mx-auto bg-gray-900 border border-yellow-600 text-yellow-300 rounded p-3 text-center focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all">
-                <p id="lotteryErrorMessage" class="text-red-500 h-5 mt-2 text-sm"></p>
+                <label
+                  for="lotteryCode"
+                  class="block text-lg mb-2 text-gray-300"
+                  >Entrez votre code spécial</label
+                >
+                <input
+                  type="text"
+                  id="lotteryCode"
+                  class="hacker-input w-full max-w-xs mx-auto bg-gray-900 border border-yellow-600 text-yellow-300 rounded p-3 text-center focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+                />
+                <p
+                  id="lotteryErrorMessage"
+                  class="text-red-500 h-5 mt-2 text-sm"
+                ></p>
                 <div class="mt-4 w-full max-w-xs mx-auto flex gap-2">
-                  <button id="spinBtn" class="flex-grow bg-yellow-500 text-black px-6 py-3 text-lg hover:bg-yellow-400 transition-all duration-300 active:scale-95 rounded-md font-bold disabled:bg-gray-600 disabled:cursor-not-allowed">
+                  <button
+                    id="spinBtn"
+                    class="flex-grow bg-yellow-500 text-black px-6 py-3 text-lg hover:bg-yellow-400 transition-all duration-300 active:scale-95 rounded-md font-bold disabled:bg-gray-600 disabled:cursor-not-allowed"
+                  >
                     FAIRE TOURNER LA ROUE
                   </button>
-                  <button id="infoBtn" class="bg-blue-600 text-white px-5 py-3 text-lg hover:bg-blue-500 transition-all duration-300 active:scale-95 rounded-md font-bold">
+                  <button
+                    id="infoBtn"
+                    class="bg-blue-600 text-white px-5 py-3 text-lg hover:bg-blue-500 transition-all duration-300 active:scale-95 rounded-md font-bold"
+                  >
                     <i class="fas fa-info"></i>
                   </button>
                 </div>
               </div>
-              <div id="lottery-result" class="hidden min-h-[148px] flex flex-col items-center justify-center">
+              <div
+                id="lottery-result"
+                class="hidden min-h-[148px] flex flex-col items-center justify-center"
+              >
                 <p class="text-lg text-gray-400">
                   Félicitations ! Vous avez gagné :
                 </p>
-                <p id="lotteryResultText" class="text-2xl sm:text-3xl text-yellow-300 font-bold mt-2"></p>
+                <p
+                  id="lotteryResultText"
+                  class="text-2xl sm:text-3xl text-yellow-300 font-bold mt-2"
+                ></p>
                 <p class="text-lg mt-2 blinking-text font-bold">
                   ÉCRIVEZ-MOI CE QUE VOUS AVEZ GAGNÉ POUR L'OBTENIR
                 </p>
-                <button id="spinAgainBtn" class="mt-4 w-full max-w-xs mx-auto bg-gray-700 text-yellow-300 px-6 py-2 text-base hover:bg-gray-600 transition-all duration-300 active:scale-95 rounded-md font-bold">
+                <button
+                  id="spinAgainBtn"
+                  class="mt-4 w-full max-w-xs mx-auto bg-gray-700 text-yellow-300 px-6 py-2 text-base hover:bg-gray-600 transition-all duration-300 active:scale-95 rounded-md font-bold"
+                >
                   Tourner à nouveau
                 </button>
               </div>
             </div>
           </div>
 
-          <div id="infoModal" class="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-sm flex items-center justify-center p-4 hidden z-[70]">
-            <div class="bg-[#0d0d0d] border border-blue-500 rounded-lg p-6 w-full max-w-lg relative shadow-2xl shadow-blue-500/30">
-              <button id="closeInfoModalBtn" class="absolute top-2 right-3 text-gray-500 hover:text-blue-400 text-3xl transition-colors">
+          <div
+            id="infoModal"
+            class="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-sm flex items-center justify-center p-4 hidden z-[70]"
+          >
+            <div
+              class="bg-[#0d0d0d] border border-blue-500 rounded-lg p-6 w-full max-w-lg relative shadow-2xl shadow-blue-500/30"
+            >
+              <button
+                id="closeInfoModalBtn"
+                class="absolute top-2 right-3 text-gray-500 hover:text-blue-400 text-3xl transition-colors"
+              >
                 ×
               </button>
               <h2 class="text-2xl text-blue-300 mb-6 font-bold text-center">
@@ -946,11 +1781,15 @@
               </h3>
               <ol class="list-decimal list-inside text-gray-300 space-y-1">
                 <li>
-                  <span class="font-bold text-yellow-400">SIGNAUX PERSONNELS DE L'ADMIN</span>
+                  <span class="font-bold text-yellow-400"
+                    >SIGNAUX PERSONNELS DE L'ADMIN</span
+                  >
                   - 5%
                 </li>
                 <li>
-                  <span class="font-bold text-yellow-400">100$ SUR VOTRE CARTE</span>
+                  <span class="font-bold text-yellow-400"
+                    >100$ SUR VOTRE CARTE</span
+                  >
                   - 5%
                 </li>
                 <li>ACCÈS AU PRÉDICTEUR VIP - 15%</li>
@@ -983,22 +1822,47 @@
             </div>
           </div>
 
-          <div id="chat-overlay" class="fixed inset-0 bg-black/60 z-40 hidden"></div>
+          <div
+            id="chat-overlay"
+            class="fixed inset-0 bg-black/60 z-40 hidden"
+          ></div>
           <div class="fixed bottom-5 right-5 z-50">
-            <button id="chat-toggle-btn" class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-black shadow-lg shadow-green-500/50 hover:scale-110 transition-transform">
+            <button
+              id="chat-toggle-btn"
+              class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-black shadow-lg shadow-green-500/50 hover:scale-110 transition-transform"
+            >
               <i class="fas fa-comments text-3xl"></i>
             </button>
-            <div id="chat-widget" class="hidden absolute bottom-20 right-0 w-80 sm:w-96 h-[500px] bg-black/80 backdrop-blur-md border-2 border-green-600 rounded-lg flex flex-col">
-              <div class="p-3 flex justify-between items-center border-b border-green-800">
+            <div
+              id="chat-widget"
+              class="hidden absolute bottom-20 right-0 w-80 sm:w-96 h-[500px] bg-black/80 backdrop-blur-md border-2 border-green-600 rounded-lg flex flex-col"
+            >
+              <div
+                class="p-3 flex justify-between items-center border-b border-green-800"
+              >
                 <h3 class="text-lg">// CHAT EN DIRECT //</h3>
-                <button id="chat-close-btn" class="text-gray-400 hover:text-green-400">
+                <button
+                  id="chat-close-btn"
+                  class="text-gray-400 hover:text-green-400"
+                >
                   <i class="fas fa-times"></i>
                 </button>
               </div>
-              <div id="chat-messages" class="flex-1 p-3 overflow-y-auto space-y-3"></div>
+              <div
+                id="chat-messages"
+                class="flex-1 p-3 overflow-y-auto space-y-3"
+              ></div>
               <div class="p-3 border-t border-green-800">
                 <div class="flex space-x-2">
-                  <input type="text" id="chat-input" class="flex-1 bg-gray-900 border border-green-700 rounded px-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-500" placeholder="Votre message..."><button id="chat-send-btn" class="bg-green-600 text-black px-4 py-1 rounded hover:bg-green-500 active:scale-95 disabled:bg-gray-600 disabled:cursor-not-allowed">
+                  <input
+                    type="text"
+                    id="chat-input"
+                    class="flex-1 bg-gray-900 border border-green-700 rounded px-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
+                    placeholder="Votre message..."
+                  /><button
+                    id="chat-send-btn"
+                    class="bg-green-600 text-black px-4 py-1 rounded hover:bg-green-500 active:scale-95 disabled:bg-gray-600 disabled:cursor-not-allowed"
+                  >
                     ENVOYER
                   </button>
                 </div>
@@ -1008,69 +1872,9 @@
           <script>
             document.addEventListener("DOMContentLoaded", () => {
               const SCRIPT_BODY = () => {
-                const FEATURE_FLAGS = {
-                  enableBetStep: true,
-                  enableLottery: true,
-                };
-                const prizes = [
-          {
-                    "text": "100$\\nTO YOUR\\nCARD",
-                    "color": "#DAA520",
-                    "textColor": "#FFFFFF",
-                    "animatedBorder": true
-          },
-          {
-                    "text": "+50%\\nDEPOSIT\\nBONUS",
-                    "color": "#BE185D",
-                    "textColor": "#FFFFFF",
-                    "animatedBorder": false
-          },
-          {
-                    "text": "VIP\\nPREDICTOR\\nACCESS",
-                    "color": "#0D9488",
-                    "textColor": "#FFFFFF",
-                    "animatedBorder": false
-          },
-          {
-                    "text": "NOTHING",
-                    "color": "#374151",
-                    "textColor": "#FFFFFF",
-                    "animatedBorder": false
-          },
-          {
-                    "text": "PERSONAL\\nSIGNALS\\nFROM ADMIN",
-                    "color": "#DAA520",
-                    "textColor": "#FFFFFF",
-                    "animatedBorder": true
-          },
-          {
-                    "text": "+100%\\nDEPOSIT\\nBONUS",
-                    "color": "#9333EA",
-                    "textColor": "#FFFFFF",
-                    "animatedBorder": false
-          },
-          {
-                    "text": "NOTHING",
-                    "color": "#374151",
-                    "textColor": "#FFFFFF",
-                    "animatedBorder": false
-          },
-          {
-                    "text": "SLOT\\nPREDICTOR\\nACCESS",
-                    "color": "#4C1D95",
-                    "textColor": "#FFFFFF",
-                    "animatedBorder": false
-          },
-          {
-                    "text": "NOTHING",
-                    "color": "#374151",
-                    "textColor": "#FFFFFF",
-                    "animatedBorder": false
-          }
-];
-                const lotteryCodes = {
-          "9#48": 4
-};
+                // FEATURE_FLAGS_PLACEHOLDER
+                // PRIZES_PLACEHOLDER
+                // LOTTERY_CODES_PLACEHOLDER
                 const CUSTOM_CONFIG = {
                   currency: "NGN",
                   minBet: 500,
@@ -1078,97 +1882,99 @@
                   winnerMultiplier: 100,
                 };
                 const VIDEO_CONFIG = {
-          "aviator": {
-                    "findGame": [
-                              {
-                                        "title": "HOW TO FIND \"AVIATOR\" IN WEB",
-                                        "url": "https://www.youtube.com/embed/VionWpts3F8"
-                              },
-                              {
-                                        "title": "HOW TO FIND \"AVIATOR\" IN APP",
-                                        "url": "https://youtube.com/embed/qSmuuD4Kmto"
-                              }
+                  aviator: {
+                    findGame: [
+                      {
+                        title: 'COMMENT TROUVER "AVIATOR" SUR LE WEB',
+                        url: "https://www.youtube.com/embed/VionWpts3F8",
+                      },
+                      {
+                        title: 'COMMENT TROUVER "AVIATOR" DANS L\'APPLICATION',
+                        url: "https://youtube.com/embed/qSmuuD4Kmto",
+                      },
                     ],
-                    "howToUse": [
-                              {
-                                        "title": "",
-                                        "url": "https://www.youtube.com/embed/R9oKm-Yy2h8"
-                              }
-                    ]
-          },
-          "mines": {
-                    "findGame": [
-                              {
-                                        "title": "HOW TO FIND \"MINES\" IN WEB",
-                                        "url": "https://youtube.com/embed/lIZc1X4eAlg"
-                              },
-                              {
-                                        "title": "HOW TO FIND \"MINES\" IN APP",
-                                        "url": "https://youtube.com/embed/kxK2AmXTbtk"
-                              }
+                    howToUse: [
+                      {
+                        title: "",
+                        url: "https://www.youtube.com/embed/R9oKm-Yy2h8",
+                      },
                     ],
-                    "howToUse": [
-                              {
-                                        "title": "",
-                                        "url": "https://www.youtube.com/embed/YnbZbhfRpIo"
-                              }
-                    ]
-          },
-          "penalty": {
-                    "findGame": [
-                              {
-                                        "title": "HOW TO FIND \"PENALTY\" IN WEB",
-                                        "url": "https://youtube.com/embed/ztTUO40WokI"
-                              },
-                              {
-                                        "title": "HOW TO FIND \"PENALTY\" IN APP",
-                                        "url": "https://youtube.com/embed/plJJXi3XWes"
-                              }
+                  },
+                  mines: {
+                    findGame: [
+                      {
+                        title: 'COMMENT TROUVER "MINES" SUR LE WEB',
+                        url: "https://youtube.com/embed/lIZc1X4eAlg",
+                      },
+                      {
+                        title: 'COMMENT TROUVER "MINES" DANS L\'APPLICATION',
+                        url: "https://youtube.com/embed/kxK2AmXTbtk",
+                      },
                     ],
-                    "howToUse": [
-                              {
-                                        "title": "",
-                                        "url": "https://www.youtube.com/embed/JSOkZujumoM"
-                              }
-                    ]
-          },
-          "apple": {
-                    "findGame": [
-                              {
-                                        "title": "HOW TO FIND \"APPLE OF FORTUNE\" IN WEB",
-                                        "url": "https://youtube.com/embed/-RTJcxOE82U"
-                              },
-                              {
-                                        "title": "HOW TO FIND \"APPLE OF FORTUNE\" IN APP",
-                                        "url": "https://youtube.com/embed/zE4dHLHK9Mo"
-                              }
+                    howToUse: [
+                      {
+                        title: "",
+                        url: "https://www.youtube.com/embed/YnbZbhfRpIo",
+                      },
                     ],
-                    "howToUse": [
-                              {
-                                        "title": "",
-                                        "url": "https://www.youtube.com/embed/5qRmvocIM8Q"
-                              }
-                    ]
-          },
-          "chicken": {
-                    "findGame": [
-                              {
-                                        "title": "HOW TO FIND \"CHICKEN ROAD\" IN WEB",
-                                        "url": "https://youtube.com/embed/zMTKdBYz64M"
-                              },
-                              {
-                                        "title": "HOW TO FIND \"CHICKEN ROAD\" IN APP",
-                                        "url": "https://youtube.com/embed/FpyFq-QMczo"
-                              }
+                  },
+                  penalty: {
+                    findGame: [
+                      {
+                        title: 'COMMENT TROUVER "PENALTY" SUR LE WEB',
+                        url: "https://youtube.com/embed/ztTUO40WokI",
+                      },
+                      {
+                        title: 'COMMENT TROUVER "PENALTY" DANS L\'APPLICATION',
+                        url: "https://youtube.com/embed/plJJXi3XWes",
+                      },
                     ],
-                    "howToUse": [
-                              {
-                                        "title": "",
-                                        "url": "https://www.youtube.com/embed/7pu_wBdoxwg"
-                              }
-                    ]
-          }
-};
+                    howToUse: [
+                      {
+                        title: "",
+                        url: "https://www.youtube.com/embed/JSOkZujumoM",
+                      },
+                    ],
+                  },
+                  apple: {
+                    findGame: [
+                      {
+                        title: 'COMMENT TROUVER "APPLE OF FORTUNE" SUR LE WEB',
+                        url: "https://youtube.com/embed/-RTJcxOE82U",
+                      },
+                      {
+                        title:
+                          'COMMENT TROUVER "APPLE OF FORTUNE" DANS L\'APPLICATION',
+                        url: "https://youtube.com/embed/zE4dHLHK9Mo",
+                      },
+                    ],
+                    howToUse: [
+                      {
+                        title: "",
+                        url: "https://www.youtube.com/embed/5qRmvocIM8Q",
+                      },
+                    ],
+                  },
+                  chicken: {
+                    findGame: [
+                      {
+                        title: 'COMMENT TROUVER "CHICKEN ROAD" SUR LE WEB',
+                        url: "https://youtube.com/embed/zMTKdBYz64M",
+                      },
+                      {
+                        title:
+                          'COMMENT TROUVER "CHICKEN ROAD" DANS L\'APPLICATION',
+                        url: "https://youtube.com/embed/FpyFq-QMczo",
+                      },
+                    ],
+                    howToUse: [
+                      {
+                        title: "",
+                        url: "https://www.youtube.com/embed/7pu_wBdoxwg",
+                      },
+                    ],
+                  },
+                };
                 const setFindGameVideos = () => {
                   const games = [
                     "aviator",
@@ -3087,6 +3893,360 @@
               SCRIPT_BODY();
             });
           </script>
-        
-      
-    
+        </body>
+      </html>
+    </template>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // --- Initial Configs ---
+        const initialVideoConfig = {
+          aviator: {
+            findGame: [
+              {
+                title: 'HOW TO FIND "AVIATOR" IN WEB',
+                url: "https://www.youtube.com/embed/VionWpts3F8",
+              },
+              {
+                title: 'HOW TO FIND "AVIATOR" IN APP',
+                url: "https://youtube.com/embed/qSmuuD4Kmto",
+              },
+            ],
+            howToUse: [
+              { title: "", url: "https://www.youtube.com/embed/R9oKm-Yy2h8" },
+            ],
+          },
+          mines: {
+            findGame: [
+              {
+                title: 'HOW TO FIND "MINES" IN WEB',
+                url: "https://youtube.com/embed/lIZc1X4eAlg",
+              },
+              {
+                title: 'HOW TO FIND "MINES" IN APP',
+                url: "https://youtube.com/embed/kxK2AmXTbtk",
+              },
+            ],
+            howToUse: [
+              { title: "", url: "https://www.youtube.com/embed/YnbZbhfRpIo" },
+            ],
+          },
+          penalty: {
+            findGame: [
+              {
+                title: 'HOW TO FIND "PENALTY" IN WEB',
+                url: "https://youtube.com/embed/ztTUO40WokI",
+              },
+              {
+                title: 'HOW TO FIND "PENALTY" IN APP',
+                url: "https://youtube.com/embed/plJJXi3XWes",
+              },
+            ],
+            howToUse: [
+              { title: "", url: "https://www.youtube.com/embed/JSOkZujumoM" },
+            ],
+          },
+          apple: {
+            findGame: [
+              {
+                title: 'HOW TO FIND "APPLE OF FORTUNE" IN WEB',
+                url: "https://youtube.com/embed/-RTJcxOE82U",
+              },
+              {
+                title: 'HOW TO FIND "APPLE OF FORTUNE" IN APP',
+                url: "https://youtube.com/embed/zE4dHLHK9Mo",
+              },
+            ],
+            howToUse: [
+              { title: "", url: "https://www.youtube.com/embed/5qRmvocIM8Q" },
+            ],
+          },
+          chicken: {
+            findGame: [
+              {
+                title: 'HOW TO FIND "CHICKEN ROAD" IN WEB',
+                url: "https://youtube.com/embed/zMTKdBYz64M",
+              },
+              {
+                title: 'HOW TO FIND "CHICKEN ROAD" IN APP',
+                url: "https://youtube.com/embed/FpyFq-QMczo",
+              },
+            ],
+            howToUse: [
+              { title: "", url: "https://www.youtube.com/embed/7pu_wBdoxwg" },
+            ],
+          },
+        };
+
+        let prizesConfig = [
+          {
+            text: "100$\\nTO YOUR\\nCARD",
+            color: "#DAA520",
+            animatedBorder: true,
+            specialCode: "",
+          },
+          {
+            text: "+50%\\nDEPOSIT\\nBONUS",
+            color: "#BE185D",
+            animatedBorder: false,
+            specialCode: "",
+          },
+          {
+            text: "VIP\\nPREDICTOR\\nACCESS",
+            color: "#0D9488",
+            animatedBorder: false,
+            specialCode: "",
+          },
+          {
+            text: "NOTHING",
+            color: "#374151",
+            animatedBorder: false,
+            specialCode: "",
+          },
+          {
+            text: "PERSONAL\\nSIGNALS\\nFROM ADMIN",
+            color: "#DAA520",
+            animatedBorder: true,
+            specialCode: "9#48",
+          },
+          {
+            text: "+100%\\nDEPOSIT\\nBONUS",
+            color: "#9333EA",
+            animatedBorder: false,
+            specialCode: "",
+          },
+          {
+            text: "NOTHING",
+            color: "#374151",
+            animatedBorder: false,
+            specialCode: "",
+          },
+          {
+            text: "SLOT\\nPREDICTOR\\nACCESS",
+            color: "#4C1D95",
+            animatedBorder: false,
+            specialCode: "",
+          },
+          {
+            text: "NOTHING",
+            color: "#374151",
+            animatedBorder: false,
+            specialCode: "",
+          },
+        ];
+
+        const accordionContainer = document.getElementById(
+          "accordion-container"
+        );
+        const wheelPrizesContainer = document.getElementById(
+          "wheel-prizes-container"
+        );
+        const addPrizeBtn = document.getElementById("add-prize-btn");
+
+        // --- Wheel of Fortune Config UI ---
+        const renderPrizeInputs = () => {
+          wheelPrizesContainer.innerHTML = "";
+          prizesConfig.forEach((prize, index) => {
+            const prizeElement = document.createElement("div");
+            prizeElement.className =
+              "p-3 border border-cyan-800 rounded-md bg-gray-800/50 space-y-3";
+            prizeElement.dataset.index = index;
+            prizeElement.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-lg">Слот #${
+                          index + 1
+                        }</span>
+                        <button class="delete-prize-btn text-red-500 hover:text-red-400" data-index="${index}">&times;</button>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Текст (используйте \\n для новой строки)</label>
+                        <input type="text" value="${
+                          prize.text
+                        }" class="prize-text-input config-input w-full p-2 border rounded-md text-white">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">HEX цвет</label>
+                            <input type="text" value="${
+                              prize.color
+                            }" class="prize-color-input config-input w-full p-2 border rounded-md text-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Спец. код (4 знака)</label>
+                            <input type="text" value="${
+                              prize.specialCode || ""
+                            }" maxlength="4" class="prize-code-input config-input w-full p-2 border rounded-md text-white">
+                        </div>
+                    </div>
+                `;
+            wheelPrizesContainer.appendChild(prizeElement);
+          });
+        };
+
+        addPrizeBtn.addEventListener("click", () => {
+          prizesConfig.push({
+            text: "NEW PRIZE",
+            color: "#FFFFFF",
+            animatedBorder: false,
+            specialCode: "",
+          });
+          renderPrizeInputs();
+        });
+
+        wheelPrizesContainer.addEventListener("click", (e) => {
+          if (e.target.classList.contains("delete-prize-btn")) {
+            const index = parseInt(e.target.dataset.index);
+            prizesConfig.splice(index, 1);
+            renderPrizeInputs();
+          }
+        });
+
+        // --- Video Accordion UI ---
+        Object.keys(initialVideoConfig).forEach((game) => {
+          const gameConfig = initialVideoConfig[game];
+          const gameName = game.charAt(0).toUpperCase() + game.slice(1);
+          const item = document.createElement("div");
+          item.className =
+            "accordion-item bg-gray-800/50 rounded-md border border-cyan-800";
+          item.innerHTML = `
+            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer">
+                <h3 class="text-xl font-semibold capitalize">${gameName}</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="accordion-content p-4 border-t border-cyan-800 space-y-4">
+                <h4 class="text-lg font-bold text-cyan-400">"Find Game" Videos</h4>
+                <div>
+                    <label for="${game}-find-web" class="block text-sm font-medium mb-1">URL для Web-версии</label>
+                    <input type="text" id="${game}-find-web" data-game="${game}" data-type="findGame" data-index="0" value="${gameConfig.findGame[0].url}" class="config-input w-full p-2 border rounded-md text-white">
+                </div>
+                <div>
+                    <label for="${game}-find-app" class="block text-sm font-medium mb-1">URL для App-версии</label>
+                    <input type="text" id="${game}-find-app" data-game="${game}" data-type="findGame" data-index="1" value="${gameConfig.findGame[1].url}" class="config-input w-full p-2 border rounded-md text-white">
+                </div>
+                <h4 class="text-lg font-bold text-cyan-400 mt-4">"How To Use" Video</h4>
+                <div>
+                    <label for="${game}-how-to-use" class="block text-sm font-medium mb-1">URL для инструкции</label>
+                    <input type="text" id="${game}-how-to-use" data-game="${game}" data-type="howToUse" data-index="0" value="${gameConfig.howToUse[0].url}" class="config-input w-full p-2 border rounded-md text-white">
+                </div>
+            </div>
+          `;
+          accordionContainer.appendChild(item);
+        });
+
+        // --- Accordion functionality ---
+        accordionContainer.addEventListener("click", (e) => {
+          const header = e.target.closest(".accordion-header");
+          if (header) {
+            const item = header.parentElement;
+            item.classList.toggle("open");
+          }
+        });
+
+        // --- Generation and Download logic ---
+        const generateBtn = document.getElementById("generateBtn");
+        generateBtn.addEventListener("click", () => {
+          const originalHtmlTemplate = document.getElementById("original-html");
+          let modifiedHtml = originalHtmlTemplate.innerHTML;
+
+          // General settings
+          const currency = document.getElementById("currency").value;
+          const minBet = document.getElementById("minBet").value;
+          const maxBet = document.getElementById("maxBet").value;
+          const winnerMultiplier =
+            document.getElementById("winnerMultiplier").value;
+          const enableBetStep =
+            document.getElementById("enableBetStep").checked;
+          const enableLottery =
+            document.getElementById("enableLottery").checked;
+
+          const newCustomConfigString = `const CUSTOM_CONFIG = {\n                  currency: "${currency}",\n                  minBet: ${minBet},\n                  maxBet: ${maxBet},\n                  winnerMultiplier: ${winnerMultiplier},\n                };`;
+          const newFeatureFlagsString = `const FEATURE_FLAGS = {\n                  enableBetStep: ${enableBetStep},\n                  enableLottery: ${enableLottery},\n                };`;
+
+          // Video settings
+          const newVideoConfig = { ...initialVideoConfig };
+          const videoInputs = document.querySelectorAll(
+            ".config-input[data-game]"
+          );
+          videoInputs.forEach((input) => {
+            const { game, type, index } = input.dataset;
+            newVideoConfig[game][type][parseInt(index)].url = input.value;
+          });
+          const newVideoConfigString = `const VIDEO_CONFIG = ${JSON.stringify(
+            newVideoConfig,
+            null,
+            18
+          )};`;
+
+          // Wheel of Fortune settings
+          const configuredPrizes = [];
+          const configuredLotteryCodes = {};
+          const prizeElements =
+            wheelPrizesContainer.querySelectorAll("div[data-index]");
+          prizeElements.forEach((el, index) => {
+            const text = el.querySelector(".prize-text-input").value;
+            const color = el.querySelector(".prize-color-input").value;
+            const specialCode = el
+              .querySelector(".prize-code-input")
+              .value.trim();
+            const prize = {
+              text: text,
+              color: color,
+              textColor: "#FFFFFF", // Assuming white text for all
+              animatedBorder:
+                text.includes("100$") || text.includes("PERSONAL"),
+            };
+            configuredPrizes.push(prize);
+            if (specialCode && specialCode.length === 4) {
+              configuredLotteryCodes[specialCode] = index;
+            }
+          });
+
+          const newPrizesString = `const prizes = ${JSON.stringify(
+            configuredPrizes,
+            null,
+            18
+          )};`;
+          const newLotteryCodesString = `const lotteryCodes = ${JSON.stringify(
+            configuredLotteryCodes,
+            null,
+            18
+          )};`;
+
+          // Replace placeholders
+          modifiedHtml = modifiedHtml.replace(
+            "// FEATURE_FLAGS_PLACEHOLDER",
+            newFeatureFlagsString
+          );
+          modifiedHtml = modifiedHtml.replace(
+            "// PRIZES_PLACEHOLDER",
+            newPrizesString
+          );
+          modifiedHtml = modifiedHtml.replace(
+            "// LOTTERY_CODES_PLACEHOLDER",
+            newLotteryCodesString
+          );
+          modifiedHtml = modifiedHtml.replace(
+            /const CUSTOM_CONFIG = {[\s\S]*?};/,
+            newCustomConfigString
+          );
+          modifiedHtml = modifiedHtml.replace(
+            /const VIDEO_CONFIG = {[\s\S]*?};/,
+            newVideoConfigString
+          );
+
+          // Trigger download
+          const blob = new Blob([modifiedHtml], { type: "text/html" });
+          const url = URL.createObjectURL(blob);
+          const downloadLink = document.getElementById("downloadLink");
+          downloadLink.href = url;
+          downloadLink.download = "predictor_configured.html";
+          downloadLink.click();
+          setTimeout(() => URL.revokeObjectURL(url), 100);
+        });
+
+        // Initial render
+        renderPrizeInputs();
+      });
+    </script>
+  </body>
+</html>
